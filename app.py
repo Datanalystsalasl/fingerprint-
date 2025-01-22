@@ -77,7 +77,7 @@ if uploaded_file is not None:
     df['Delay time'] = pd.to_timedelta(df['Delay time'])
 
     # حساب Net Time
-    df['Net Time'] = df['Over Time'] - df['Delay time']
+    df['Net Time'] = df['Delay time'] - df['Over Time'] 
 
     # تحويل Net Time إلى صيغة نصية
     df['Net Time'] = df['Net Time'].apply(
