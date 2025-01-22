@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 import streamlit as st
 
 # عنوان التطبيق
-st.title("تطبيق تحليل بيانات الحضور والانصراف")
+st.title("Finger print app")
 
 # رفع ملف CSV
-uploaded_file = st.file_uploader("ارفع ملف CSV الخاص بالحضور والانصراف", type=["csv"])
+uploaded_file = st.file_uploader("upload CSV file", type=["csv"])
 
 if uploaded_file is not None:
     # قراءة الملف
@@ -86,7 +86,7 @@ if uploaded_file is not None:
 
     # زر لتنزيل الملف المعدل
     st.download_button(
-        label="تحميل الملف المعدل كـ Excel",
+        label="Download Excel file",
         data=convert_df_to_excel(df),
         file_name="data.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
