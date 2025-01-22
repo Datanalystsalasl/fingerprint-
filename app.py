@@ -31,7 +31,7 @@ if uploaded_file is not None:
     ).reset_index()
 
     df['Check In'] = df['Check In'].fillna('9:30:00')
-    df['Check Out'] = df['Check Out'].fillna('17:30:00')
+    df['Check Out'] = df['Check Out'].fillna('16:30:00')
     df['Check In'] = pd.to_datetime(df['Check In'], format='%H:%M:%S')
     df['Check Out'] = pd.to_datetime(df['Check Out'], format='%H:%M:%S')
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
