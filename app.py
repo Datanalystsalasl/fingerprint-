@@ -1,8 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[44]:
-
 import io
 import pandas as pd
 import numpy as np
@@ -96,10 +91,3 @@ if uploaded_file is not None:
         file_name="data.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-
-
-# In[ ]:
-
-
-
-
