@@ -38,6 +38,7 @@ if uploaded_file is not None:
 
     reference_time = pd.to_datetime('1900-01-01 17:00:00')
 
+    # حساب Over Time
     df['Over Time'] = df['Check Out'] - reference_time
     df['Over Time'] = pd.to_timedelta(df['Over Time'])
 
@@ -45,11 +46,14 @@ if uploaded_file is not None:
         if row['Over Time'] < timedelta(0):
             df.at[index, 'Over Time'] = timedelta(0)
 
+    # إعادة Over Time إلى التنسيق النصي
     df['Over Time'] = df['Over Time'].apply(
         lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
     )
 
     reference_in_time = pd.to_datetime('1900-01-01 9:00:00')
+    
+    # حساب Delay Time
     df['Delay time'] = df['Check In'] - reference_in_time
     df['Delay time'] = pd.to_timedelta(df['Delay time'])
 
@@ -57,22 +61,41 @@ if uploaded_file is not None:
         if row['Delay time'] < timedelta(0):
             df.at[index, 'Delay time'] = timedelta(0)
 
+    # إعادة Delay Time إلى التنسيق النصي
     df['Delay time'] = df['Delay time'].apply(
         lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
     )
 
+    # حساب Real Duration
     df['Real Duration'] = df['Check Out'] - df['Check In']
     df['Real Duration'] = df['Real Duration'].apply(
         lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
     )
 
-    df['Check In'] = pd.to_datetime(df['Check In'], format='%H:%M:%S').dt.time
-    df['Check Out'] = pd.to_datetime(df['Check Out'], format='%H:%M:%S').dt.time
+    # تحويل الأعمدة إلى صيغة زمنية لحساب الفرق
+    df['Over Time'] = pd.to_timedelta(df['Over Time'])
+    df['Delay time'] = pd.to_timedelta(df['Delay time'])
+
+    # حساب Net Time
+    df['Net Time'] = df['Over Time'] - df['Delay time']
+
+    # تحويل Net Time إلى صيغة نصية
+    df['Net Time'] = df['Net Time'].apply(
+        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
+    )
+
+    # إعادة Over Time و Delay Time إلى التنسيق النصي بعد الحسابات
+    df['Over Time'] = df['Over Time'].apply(
+        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
+    )
+
+    df['Delay time'] = df['Delay time'].apply(
+        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
+    )
 
     # عرض البيانات بعد التعديل
-    st.subheader("البيانات بعد المعالجة:")
+    st.subheader("البيانات بعد المعالجة (مع العمود الجديد):")
     st.write(df)
-
 
     # وظيفة لتحويل DataFrame إلى ملف Excel
     @st.cache_data
@@ -82,7 +105,6 @@ if uploaded_file is not None:
             df.to_excel(writer, index=False, sheet_name='Sheet1')
         processed_data = output.getvalue()
         return processed_data
-
 
     # زر لتنزيل الملف المعدل
     st.download_button(
