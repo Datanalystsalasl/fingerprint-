@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import streamlit as st
 
 # عنوان التطبيق
-st.image("WHITE(2).png", width=200)
+st.image("WHITE (2).png", width=200)
 st.title("Finger print app")
 
 # رفع ملف CSV
