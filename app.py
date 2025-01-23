@@ -70,7 +70,7 @@ if uploaded_file is not None:
     df['Check Out'] = pd.to_datetime(df['Check Out'], format='%H:%M:%S').dt.time
 
     # عرض البيانات بعد التعديل
-    st.subheader("البيانات بعد المعالجة:")
+    st.subheader("Data after Processing")
     st.write(df)
 
 
