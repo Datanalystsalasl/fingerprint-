@@ -37,35 +37,6 @@ if uploaded_file is not None:
     df['Check Out'] = pd.to_datetime(df['Check Out'], format='%H:%M:%S')
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
 
-    reference_time = pd.to_datetime('1900-01-01 17:00:00')
-
-    df['Over Time'] = df['Check Out'] - reference_time
-    df['Over Time'] = pd.to_timedelta(df['Over Time'])
-
-    for index, row in df.iterrows():
-        if row['Over Time'] < timedelta(0):
-            df.at[index, 'Over Time'] = timedelta(0)
-
-    df['Over Time'] = df['Over Time'].apply(
-        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
-    )
-
-    reference_in_time = pd.to_datetime('1900-01-01 9:00:00')
-    df['Delay time'] = df['Check In'] - reference_in_time
-    df['Delay time'] = pd.to_timedelta(df['Delay time'])
-
-    for index, row in df.iterrows():
-        if row['Delay time'] < timedelta(0):
-            df.at[index, 'Delay time'] = timedelta(0)
-
-    df['Delay time'] = df['Delay time'].apply(
-        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
-    )
-
-    df['Real Duration'] = df['Check Out'] - df['Check In']
-    df['Real Duration'] = df['Real Duration'].apply(
-        lambda x: f"{int(x.total_seconds() // 3600)}:{int(abs(x.total_seconds() % 3600) // 60):02d}:{int(abs(x.total_seconds() % 60)):02d}"
-    )
 
     df['Check In'] = pd.to_datetime(df['Check In'], format='%H:%M:%S').dt.time
     df['Check Out'] = pd.to_datetime(df['Check Out'], format='%H:%M:%S').dt.time
