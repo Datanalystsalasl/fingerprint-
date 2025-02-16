@@ -21,7 +21,7 @@ if uploaded_file is not None:
     df = df.drop(["Department", "Attendance Check Point", "Custom Name", "Data Source", "Handling Type", "Temperature", "Abnormal"], axis=1)
     df[['Date', 'Time']] = df['Time'].str.split(' ', expand=True)
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-    df['CheckType'] = np.where(df['Time'] <= '14:00:00', 'Check In', 'Check Out')
+    df['CheckType'] = np.where(df['Time'] <= '11:30:00', 'Check In', 'Check Out')
     df = df.drop('Attendance Status', axis=1)
 
     df = df.pivot_table(
