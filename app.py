@@ -34,7 +34,7 @@ if uploaded_file is not None:
     # دالة لتحديد Check In و Check Out بشكل ذكي
     def assign_check_in_out(times):
         if len(times) == 1:  # لو تسجيل واحد فقط
-            if times[0] <= datetime.strptime("12:00:00", "%H:%M:%S").time():
+            if times[0] <= datetime.strptime("14:00:00", "%H:%M:%S").time():
                 return times[0], None  # يعتبر Check In
             else:
                 return None, times[0]  # يعتبر Check Out
