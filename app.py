@@ -48,11 +48,10 @@ if uploaded_file is not None:
     grouped = grouped.drop(columns=['Time'])
 
     # تعويض القيم الناقصة
-    default_check_in = datetime.strptime("10:31:00", "%H:%M:%S").time()
-    default_check_out = datetime.strptime("15:30:00", "%H:%M:%S").time()
 
-    grouped['Check In'] = grouped['Check In'].fillna(default_check_in)
-    grouped['Check Out'] = grouped['Check Out'].fillna(default_check_out)
+
+    grouped['Check In'] = grouped['Check In'].fillna("no login")
+    grouped['Check Out'] = grouped['Check Out'].fillna("no logout")
 
     # عرض البيانات بعد المعالجة
     st.subheader("Processed Data")
